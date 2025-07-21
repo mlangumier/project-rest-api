@@ -4,6 +4,8 @@ Mettre en place la base d'une application similaire à Tricount (calcul de budge
 partages et remboursements) en utilisant Spring Boot & une architecture MVC afin de permettre une
 gestion des dépenses ainsi qu'une authentification optionnelle.
 
+[Introducing Tricount](https://www.youtube.com/watch?v=rjDY84-CVks)
+
 ## Notes
 
 Ce projet utilise la dépendence `Docker Compose` pour lancer un serveur `MySQL` dans un container
@@ -19,15 +21,19 @@ dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
 
 - [ ] Créer un groupe de dépenses
 - [ ] Entrer des dépenses dans ce groupe (ex : Marc - Billet de train - 25€)
-- [ ] Consulter la liste et le total des dépenses d'un groupe, filtrer par personne et montant 
+- [ ] Consulter la liste et le total des dépenses d'un groupe, filtrer par personne et montant
   (inférieur ou supérieur à...)
 - [ ] Consulter le détail des dépenses, qui doit combien à qui, pouvoir indiquer qu'on a payé son dû
 - [ ] S'authentifier pour voir les différents groupes auxquels on fait partis
 
 ### Étapes
 
-- [ ] Créer un diagramme d'entités
+- [x] Créer un diagramme d'entités
 - [x] Initialiser le projet Spring Boot et les dépendances nécessaires
-- [ ] Mettre en mettre une architecture MVC (DTOs dans les controllers, la logique & l'accès aux
+- [ ] Mettre en place une architecture MVC (DTOs dans les controllers, la logique & l'accès aux
   repositories dans la couche Business)
 - [ ] Quelques tests fonctionnels sur les endpoints
+
+## Class Diagram
+
+![UML Class Diagram](./assets/class_diagram.png)

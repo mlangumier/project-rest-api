@@ -1,0 +1,48 @@
+@startuml
+
+class User {
+    id: String
+    name: String
+    email: String
+    password: String
+'    expenses: List<Expense>
+}
+
+class Group {
+    id: String
+    name: String
+}
+
+class Expense {
+    id: String
+    name: String
+    amount: Double
+    paidAt: LocalDateTime
+'    group: Group
+'    paidBy: User
+'    shares: List<ExpenseShare>
+}
+class ExpenseShare {
+    id: String
+    amountOwed: Double
+'    user: User
+'    expense: Expense
+}
+
+class Settlement {
+    id: String
+    amount: Double
+    paidAt: LocalDateTime
+    comment: String
+'    group: Group
+'    fromUser: User
+'    toUser: User
+}
+
+User "1" -- "0..*" Group: Owns
+User "1..*" -- "0..*" Group: Participates
+
+'Group "1" -- "0..*" Transaction: Hosts
+'User "1..*" -- "0..*" Transaction: Pays
+
+@enduml
