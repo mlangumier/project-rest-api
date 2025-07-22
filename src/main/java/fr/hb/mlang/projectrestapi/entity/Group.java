@@ -15,6 +15,12 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Tricount {@link Group} created by a {@link User} (owner). Will contain multiple
+ * <code>Users</code> (participants) who will be able to create {@link Expense}s (= pay for
+ * multiple people, which generates {@link ExpenseShare}), and will list {@link Settlement}s (users
+ * reimbursing those who made <code>expenses</code>).
+ */
 @Entity
 @Table(name = "group_table")
 public class Group {

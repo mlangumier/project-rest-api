@@ -13,11 +13,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * {@link User} of the application.
- * <p>
- * Can create or participate in {@link Group}s, pay {@link Expense}s or accumulate expenses debts by
- * getting from other users {@link ExpenseShare}s, and pay {@link Settlement} to other users or
- * receive some from them.
+ * The {@link User} of the application. Can create or participate in {@link Group}s, pay
+ * {@link Expense}s or accumulate expenses debts by getting from other users {@link ExpenseShare}s,
+ * and pay {@link Settlement} to other users or receive some from them.
  */
 @Entity
 @Table(name = "user_table")
@@ -53,4 +51,6 @@ public class User {
 
   @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
   private Set<Settlement> settlementsReceived = new HashSet<>();
+
+
 }

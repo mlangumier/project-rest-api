@@ -10,6 +10,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
+/**
+ * A {@link Settlement} represents the monetary transfer between two {@link User}s of a same
+ * {@link Group}, allowing the debtor (fromUser) to reimburse the person who originally paid for the
+ * {@link Expense}.
+ */
 @Entity
 @Table(name = "settlement")
 public class Settlement {

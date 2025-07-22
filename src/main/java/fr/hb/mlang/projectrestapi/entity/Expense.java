@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * An {@link Expense} is created when a {@link User} pays for multiple other users. This
+ * <code>expense</code> generates {@link ExpenseShare}s for those involved (including the user who
+ * paid for it), and is linked to the {@link Group}.
+ */
 @Entity
 @Table(name = "expense")
 public class Expense {
