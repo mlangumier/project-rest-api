@@ -12,6 +12,13 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * {@link User} of the application.
+ * <p>
+ * Can create or participate in {@link Group}s, pay {@link Expense}s or accumulate expenses debts by
+ * getting from other users {@link ExpenseShare}s, and pay {@link Settlement} to other users or
+ * receive some from them.
+ */
 @Entity
 @Table(name = "user_table")
 public class User {
@@ -20,18 +27,30 @@ public class User {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  @Column(name = "username", unique = true)
-  private String username;
+  @Column(name = "name", unique = true)
+  private String name;
 
-  @Column(name = "public_name")
-  private String publicName;
+  @Column(name = "email")
+  private String email;
 
   @Column(name = "password")
   private String password;
 
-  @ManyToMany(mappedBy = "participants")
-  private Set<Tricount> tricounts = new HashSet<>();
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+  private Set<Group> ownedGroups = new HashSet<>();
 
-  @OneToMany(mappedBy = "paidBy", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Transaction> transactions = new HashSet<>();
+  @ManyToMany(mappedBy = "participants")
+  private Set<Group> groups = new HashSet<>();
+
+  @OneToMany(mappedBy = "paidBy", cascade = CascadeType.ALL)
+  private Set<Expense> expenses = new HashSet<>();
+
+  @OneToMany(mappedBy = "debtor", cascade = CascadeType.ALL)
+  private Set<ExpenseShare> expensesShares = new HashSet<>();
+
+  @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
+  private Set<Settlement> settlementsPaid = new HashSet<>();
+
+  @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
+  private Set<Settlement> settlementsReceived = new HashSet<>();
 }

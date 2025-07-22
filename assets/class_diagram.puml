@@ -1,48 +1,46 @@
 @startuml
 
 class User {
-    id: String
+    id: UUID
     name: String
     email: String
     password: String
-'    expenses: List<Expense>
 }
 
 class Group {
-    id: String
+    id: UUID
     name: String
 }
 
 class Expense {
-    id: String
+    id: UUID
     name: String
     amount: Double
     paidAt: LocalDateTime
-'    group: Group
-'    paidBy: User
-'    shares: List<ExpenseShare>
 }
+
 class ExpenseShare {
-    id: String
+    id: UUID
     amountOwed: Double
-'    user: User
-'    expense: Expense
 }
 
 class Settlement {
-    id: String
+    id: UUID
     amount: Double
     paidAt: LocalDateTime
     comment: String
-'    group: Group
-'    fromUser: User
-'    toUser: User
 }
 
 User "1" -- "0..*" Group: Owns
 User "1..*" -- "0..*" Group: Participates
 
-'Group "1" -- "0..*" Transaction: Hosts
-'User "1..*" -- "0..*" Transaction: Pays
+Group "1" -- "0..*" Expense: Has
+User "1" -- "0..*" Expense: Pays
+Expense "1" -- "1..*" ExpenseShare: Generates
+ExpenseShare "1" -- "1" User: BelongsTo
+
+User "1" -- "0..*" Settlement: Pays -> fromUser
+User "1" -- "0..*" Settlement: Receives -> toUser
+Group "1" -- "0..*" Settlement: Lists
 
 @enduml

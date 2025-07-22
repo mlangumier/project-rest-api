@@ -9,26 +9,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tricount")
-public class Tricount {
+@Table(name = "group_table")
+public class Group {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  @Column(name = "title", nullable = false)
-  private String title;
+  @Column(name = "name", nullable = false)
+  private String name;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private User owner;
 
   @ManyToMany
-  @JoinTable(name = "user_tricount", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "tricount_id"))
+  @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
   private Set<User> participants = new HashSet<>();
 
-  @OneToMany(mappedBy = "tricount", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Transaction> transactions = new HashSet<>();
+  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+  private Set<Expense> expenses = new HashSet<>();
+
+  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+  private Set<Settlement> settlements = new HashSet<>();
 }
