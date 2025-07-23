@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -47,4 +48,123 @@ public class Expense {
   @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
   private Set<ExpenseShare> expenseShares = new HashSet<>();
 
+  /**
+   * Default constructor
+   */
+  public Expense() {
+    // Required by JPA
+  }
+
+  /**
+   * Entity constructor
+   *
+   * @param id     UUID identifier
+   * @param name   Name of the expense
+   * @param amount Total amount paid for this expense
+   * @param paidAt Date and time when the expense was paid
+   * @param paidBy Entity {@link User} who paid for the expense
+   * @param group  Entity {@link Group} this expense belongs to
+   */
+  public Expense(String id, String name, Double amount, LocalDateTime paidAt, User paidBy,
+      Group group) {
+    this.id = id;
+    this.name = name;
+    this.amount = amount;
+    this.paidAt = paidAt;
+    this.paidBy = paidBy;
+    this.group = group;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Double getAmount() {
+    return amount;
+  }
+
+  public void setAmount(Double amount) {
+    this.amount = amount;
+  }
+
+  public LocalDateTime getPaidAt() {
+    return paidAt;
+  }
+
+  public void setPaidAt(LocalDateTime paidAt) {
+    this.paidAt = paidAt;
+  }
+
+  public User getPaidBy() {
+    return paidBy;
+  }
+
+  public void setPaidBy(User paidBy) {
+    this.paidBy = paidBy;
+  }
+
+  public Group getGroup() {
+    return group;
+  }
+
+  public void setGroup(Group group) {
+    this.group = group;
+  }
+
+  public Set<ExpenseShare> getExpenseShares() {
+    return expenseShares;
+  }
+
+  public void setExpenseShares(Set<ExpenseShare> expenseShares) {
+    this.expenseShares = expenseShares;
+  }
+
+  //--- Helper methods
+
+  public void addExpenseShare(ExpenseShare expenseShare) {
+    expenseShare.setExpense(this);
+    this.expenseShares.add(expenseShare);
+  }
+
+  public void removeExpenseShare(ExpenseShare expenseShare) {
+    this.expenseShares.remove(expenseShare);
+    expenseShare.setExpense(null);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Expense expense)) {
+      return false;
+    }
+    return Objects.equals(getId(), expense.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getId());
+  }
+
+  @Override
+  public String toString() {
+    return "Expense{" +
+        "id='" + id + '\'' +
+        ", name='" + name + '\'' +
+        ", amount=" + amount +
+        ", paidAt=" + paidAt +
+        ", paidBy=" + paidBy +
+        ", group=" + group +
+        '}';
+  }
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.Objects;
 
 /**
  * An {@link ExpenseShare} represents the monetary part of an {@link Expense} that the {@link User}
@@ -34,4 +35,92 @@ public class ExpenseShare {
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   private User debtor;
+
+  /**
+   * Default constructor
+   */
+  public ExpenseShare() {
+    // Required by JPA
+  }
+
+  /**
+   * Entity constructor
+   *
+   * @param id         UUID identifier
+   * @param amountOwed Amount owed regarding the {@link Expense}
+   * @param paid       Boolean that specifies if the share has been reimbursed or not
+   * @param expense    <code>Expense</code> that generated this share
+   * @param debtor     {@link User} who owes the <code>share</code>
+   */
+  public ExpenseShare(String id, Double amountOwed, boolean paid, Expense expense, User debtor) {
+    this.id = id;
+    this.amountOwed = amountOwed;
+    this.paid = paid;
+    this.expense = expense;
+    this.debtor = debtor;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Double getAmountOwed() {
+    return amountOwed;
+  }
+
+  public void setAmountOwed(Double amountOwed) {
+    this.amountOwed = amountOwed;
+  }
+
+  public boolean isPaid() {
+    return paid;
+  }
+
+  public void setPaid(boolean paid) {
+    this.paid = paid;
+  }
+
+  public Expense getExpense() {
+    return expense;
+  }
+
+  public void setExpense(Expense expense) {
+    this.expense = expense;
+  }
+
+  public User getDebtor() {
+    return debtor;
+  }
+
+  public void setDebtor(User debtor) {
+    this.debtor = debtor;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ExpenseShare that)) {
+      return false;
+    }
+    return Objects.equals(getId(), that.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getId());
+  }
+
+  @Override
+  public String toString() {
+    return "ExpenseShare{" +
+        "id='" + id + '\'' +
+        ", amountOwed=" + amountOwed +
+        ", paid=" + paid +
+        ", expense=" + expense +
+        ", debtor=" + debtor +
+        '}';
+  }
 }
