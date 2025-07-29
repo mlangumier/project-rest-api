@@ -9,10 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * The {@link User} of the application. Can create or participate in {@link Group}s, pay
@@ -21,7 +26,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "user_table")
-public class User {
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -216,6 +221,18 @@ public class User {
   public void removeSettlementReceived(Settlement settlement) {
     this.settlementsReceived.remove(settlement);
     settlement.setToUser(null);
+  }
+
+  //--- UserDetails methods
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+  }
+
+  @Override
+  public String getUsername() {
+    return this.getEmail();
   }
 
   @Override

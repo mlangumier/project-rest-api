@@ -35,7 +35,7 @@ public class Group {
   private String name;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
   @ManyToMany
@@ -66,6 +66,7 @@ public class Group {
     this.id = id;
     this.name = name;
     this.owner = owner;
+    this.participants.add(owner);
   }
 
   public UUID getId() {
@@ -165,6 +166,7 @@ public class Group {
         "id='" + id + '\'' +
         ", name='" + name + '\'' +
         ", owner=" + owner +
+        ", participants=" + participants +
         '}';
   }
 }

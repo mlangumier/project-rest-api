@@ -30,7 +30,7 @@ dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
 
 - [x] Créer un diagramme d'entités
 - [x] Initialiser le projet Spring Boot et les dépendances nécessaires
-- [ ] Mettre en place une architecture MVC (DTOs dans les controllers, la logique & l'accès aux
+- [x] Mettre en place une architecture MVC (DTOs dans les controllers, la logique & l'accès aux
   repositories dans la couche Business)
 - [ ] Quelques tests fonctionnels sur les endpoints
 
