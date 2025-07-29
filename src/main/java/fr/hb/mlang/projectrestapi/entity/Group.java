@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Tricount {@link Group} created by a {@link User} (owner). Will contain multiple
@@ -28,7 +29,7 @@ public class Group {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   @Column(name = "name", nullable = false)
   private String name;
@@ -61,17 +62,17 @@ public class Group {
    * @param name  Name of the group
    * @param owner Entity {@link User} who created the group
    */
-  public Group(String id, String name, User owner) {
+  public Group(UUID id, String name, User owner) {
     this.id = id;
     this.name = name;
     this.owner = owner;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

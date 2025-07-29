@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * An {@link Expense} is created when a {@link User} pays for multiple other users. This
@@ -26,7 +27,7 @@ public class Expense {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   @Column(name = "name", nullable = false, updatable = false)
   private String name;
@@ -65,7 +66,8 @@ public class Expense {
    * @param paidBy Entity {@link User} who paid for the expense
    * @param group  Entity {@link Group} this expense belongs to
    */
-  public Expense(String id, String name, Double amount, LocalDateTime paidAt, User paidBy,
+  public Expense(
+      UUID id, String name, Double amount, LocalDateTime paidAt, User paidBy,
       Group group) {
     this.id = id;
     this.name = name;
@@ -75,11 +77,11 @@ public class Expense {
     this.group = group;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

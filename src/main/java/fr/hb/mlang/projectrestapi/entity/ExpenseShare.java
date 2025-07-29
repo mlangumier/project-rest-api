@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * An {@link ExpenseShare} represents the monetary part of an {@link Expense} that the {@link User}
@@ -20,7 +21,7 @@ public class ExpenseShare {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   @Column(name = "amount_owed", nullable = false, updatable = false)
   private Double amountOwed;
@@ -52,7 +53,7 @@ public class ExpenseShare {
    * @param expense    <code>Expense</code> that generated this share
    * @param debtor     {@link User} who owes the <code>share</code>
    */
-  public ExpenseShare(String id, Double amountOwed, boolean paid, Expense expense, User debtor) {
+  public ExpenseShare(UUID id, Double amountOwed, boolean paid, Expense expense, User debtor) {
     this.id = id;
     this.amountOwed = amountOwed;
     this.paid = paid;
@@ -60,11 +61,11 @@ public class ExpenseShare {
     this.debtor = debtor;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

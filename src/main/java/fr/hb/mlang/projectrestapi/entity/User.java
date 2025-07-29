@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * The {@link User} of the application. Can create or participate in {@link Group}s, pay
@@ -24,7 +25,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   @Column(name = "name", unique = true)
   private String name;
@@ -68,18 +69,18 @@ public class User {
    * @param email    Email credential
    * @param password Password credential
    */
-  public User(String id, String name, String email, String password) {
+  public User(UUID id, String name, String email, String password) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

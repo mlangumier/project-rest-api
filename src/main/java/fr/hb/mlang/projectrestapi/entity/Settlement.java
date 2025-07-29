@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A {@link Settlement} represents the monetary transfer between two {@link User}s of a same
@@ -22,7 +23,7 @@ public class Settlement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   @Column(name = "amount", nullable = false, updatable = false)
   private Double amount;
@@ -64,7 +65,8 @@ public class Settlement {
    * @param fromUser <code>User</code> who generates this settlement to reimburse another
    * @param toUser   <code>User</code> that receives the settlement
    */
-  public Settlement(String id, Double amount, LocalDateTime paidAt, String comment, Group group,
+  public Settlement(
+      UUID id, Double amount, LocalDateTime paidAt, String comment, Group group,
       User fromUser, User toUser) {
     this.id = id;
     this.amount = amount;
@@ -75,11 +77,11 @@ public class Settlement {
     this.toUser = toUser;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
