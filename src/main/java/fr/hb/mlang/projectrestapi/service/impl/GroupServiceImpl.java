@@ -1,0 +1,37 @@
+package fr.hb.mlang.projectrestapi.service.impl;
+
+import fr.hb.mlang.projectrestapi.entity.Group;
+import fr.hb.mlang.projectrestapi.entity.dto.GroupMapper;
+import fr.hb.mlang.projectrestapi.entity.dto.group.GroupCreateRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
+import fr.hb.mlang.projectrestapi.repository.GroupRepository;
+import fr.hb.mlang.projectrestapi.service.GroupService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class GroupServiceImpl implements GroupService {
+
+  private final GroupRepository groupRepository;
+  private final GroupMapper groupMapper;
+
+  public GroupServiceImpl(
+      GroupRepository groupRepository,
+      GroupMapper groupMapper
+  ) {
+    this.groupRepository = groupRepository;
+    this.groupMapper = groupMapper;
+  }
+
+  @Override
+  public GroupResponse createGroup(GroupCreateRequest request) {
+    Group group = groupMapper.toEntity(request);
+    group.addParticipant(group.getOwner()); // Owner is the first user added list of participants
+    Group createdGroup = groupRepository.save(group);
+    return groupMapper.toResponse(createdGroup);
+  }
+
+  @Override
+  public GroupResponse updateGroup() {
+    return null;
+  }
+}

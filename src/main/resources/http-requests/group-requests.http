@@ -1,0 +1,24 @@
+### GET Groups - Get all groups
+GET {{base_url}}/group
+
+### POST Group - Create a group as an existing User & no participants
+POST {{base_url}}/group
+Content-Type: application/json
+
+{
+  "name": "Visite diplomatique en Andalousie",
+  "ownerId": "992b5bc9-17ea-40ad-9241-aecb0095f72a"
+}
+
+### (Not implemented yet) POST Group - Create a group as a visitor & with participants
+POST {{base_url}}/group
+Content-Type: application/json
+
+{
+  "name": "Campagne contre les Visigoths",
+  "ownerId": "242d309c-6db7-4aec-8f40-26195ecd65d4",
+  "participants": [
+    "8aa850ca-b7c8-4949-985e-13de2f919b9b",
+    "54e67b1d-445f-4fc8-82fc-2d4ba2e46ed4"
+  ]
+}
