@@ -76,7 +76,7 @@ public class DataLoader implements CommandLineRunner {
       Group groupKaamelott = groupRepository.save(newGroup1);
 
       Group newGroup2 = new Group(null, "Mission", perceval);
-      newGroup2.addParticipant(arthur);
+      newGroup2.addMember(arthur);
       Group groupMission = groupRepository.save(newGroup2);
 
       //--- Generate Expenses, ExpenseShares & Settlements

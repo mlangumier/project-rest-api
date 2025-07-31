@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "expense")
-public class Expense {
+public class Expense implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -68,7 +69,8 @@ public class Expense {
    */
   public Expense(
       UUID id, String name, Double amount, LocalDateTime paidAt, User paidBy,
-      Group group) {
+      Group group
+  ) {
     this.id = id;
     this.name = name;
     this.amount = amount;

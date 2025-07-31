@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +26,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "group_table")
-public class Group {
+public class Group implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -119,11 +120,11 @@ public class Group {
 
   //--- Helper methods
 
-  public void addParticipant(User participant) {
+  public void addMember(User participant) {
     members.add(participant);
   }
 
-  public void removeParticipant(User participant) {
+  public void removeMember(User participant) {
     members.remove(participant);
   }
 

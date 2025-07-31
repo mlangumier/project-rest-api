@@ -7,18 +7,41 @@ Content-Type: application/json
 
 {
   "name": "Visite diplomatique en Andalousie",
-  "ownerId": "992b5bc9-17ea-40ad-9241-aecb0095f72a"
+  "owner": {
+    "id": "8afdf34b-ce1a-4714-9e31-a833f2b9caf8",
+    "name": "Bohort",
+    "email": "bohort@test.com"
+  }
 }
 
-### (Not implemented yet) POST Group - Create a group as a visitor & with members
+### POST Group - Create a group as a temporary user & with members
 POST {{base_url}}/group
 Content-Type: application/json
 
 {
   "name": "Campagne contre les Visigoths",
-  "ownerId": "242d309c-6db7-4aec-8f40-26195ecd65d4",
+  "owner": {
+    "name": "Dagonnet"
+  },
   "members": [
-    "8aa850ca-b7c8-4949-985e-13de2f919b9b",
-    "54e67b1d-445f-4fc8-82fc-2d4ba2e46ed4"
+    {
+      "id": "efd73808-8651-4934-9cf1-80ea5dcbdf87",
+      "name": "Arthur",
+      "email": "arthur@test.com"
+    },
+    {
+      "name": "Léodagan"
+    }
   ]
+}
+
+### PATCH group - Update a group
+PATCH {{base_url}}/group/{{group_id}}
+Content-Type: application/json
+
+{
+  "id": "",
+  "name": "",
+  "owner": "",
+  "members": []
 }

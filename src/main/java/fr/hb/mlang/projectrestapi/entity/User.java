@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -26,16 +27,16 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "user_table")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "name", unique = true)
+  @Column(name = "name")
   private String name;
 
-  @Column(name = "email")
+  @Column(name = "email", unique = true)
   private String email;
 
   @Column(name = "password")
@@ -79,6 +80,18 @@ public class User implements UserDetails {
     this.name = name;
     this.email = email;
     this.password = password;
+  }
+
+  /**
+   * Factory method that creates a temporary user without credentials
+   *
+   * @param name Name of the user
+   * @return a minimal visitor
+   */
+  public static User temporaryUser(String name) {
+    User user = new User();
+    user.setName(name);
+    return user;
   }
 
   public UUID getId() {
@@ -142,7 +155,8 @@ public class User implements UserDetails {
   }
 
   public void setExpensesShares(
-      Set<ExpenseShare> expensesShares) {
+      Set<ExpenseShare> expensesShares
+  ) {
     this.expensesShares = expensesShares;
   }
 
@@ -151,7 +165,8 @@ public class User implements UserDetails {
   }
 
   public void setSettlementsPaid(
-      Set<Settlement> settlementsPaid) {
+      Set<Settlement> settlementsPaid
+  ) {
     this.settlementsPaid = settlementsPaid;
   }
 
@@ -160,7 +175,8 @@ public class User implements UserDetails {
   }
 
   public void setSettlementsReceived(
-      Set<Settlement> settlementsReceived) {
+      Set<Settlement> settlementsReceived
+  ) {
     this.settlementsReceived = settlementsReceived;
   }
 
@@ -177,13 +193,13 @@ public class User implements UserDetails {
   }
 
   public void addGroup(Group group) {
-    group.addParticipant(this);
+    group.addMember(this);
     this.groups.add(group);
   }
 
   public void removeGroup(Group group) {
     this.groups.remove(group);
-    group.removeParticipant(this);
+    group.removeMember(this);
   }
 
   public void addExpense(Expense expense) {
@@ -200,6 +216,7 @@ public class User implements UserDetails {
     expenseShare.setDebtor(this);
     this.expensesShares.add(expenseShare);
   }
+
   public void removeExpenseShare(ExpenseShare expenseShare) {
     this.expensesShares.remove(expenseShare);
     expenseShare.setDebtor(null);
@@ -209,6 +226,7 @@ public class User implements UserDetails {
     settlement.setFromUser(this);
     this.settlementsPaid.add(settlement);
   }
+
   public void removeSettlementPaid(Settlement settlement) {
     this.settlementsPaid.remove(settlement);
     settlement.setFromUser(null);
@@ -218,6 +236,7 @@ public class User implements UserDetails {
     settlement.setToUser(this);
     this.settlementsReceived.add(settlement);
   }
+
   public void removeSettlementReceived(Settlement settlement) {
     this.settlementsReceived.remove(settlement);
     settlement.setToUser(null);
