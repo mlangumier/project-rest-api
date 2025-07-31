@@ -1,11 +1,13 @@
+@group_url={{base_url}}/groups
+
 ### GET Groups - Get all groups
-GET {{base_url}}/group
+GET {{group_url}}
 
 ### GET Group by ID
-GET {{base_url}}/group/d4ed32c1-63f3-46cf-8462-d6d1eae0aaba
+GET {{group_url}}/{{groups.kaamelott.id}}
 
 ### POST Group - Create a group as an existing User & no member
-POST {{base_url}}/group
+POST {{group_url}}
 Content-Type: application/json
 
 {
@@ -18,7 +20,7 @@ Content-Type: application/json
 }
 
 ### POST Group - Create a group as a temporary user & with members
-POST {{base_url}}/group
+POST {{group_url}}
 Content-Type: application/json
 
 {
