@@ -37,9 +37,9 @@ public class GroupServiceImpl implements GroupService {
   @Override
   @Transactional
   public GroupResponse createGroup(CreateGroupRequest request) {
-    Group group = mapper.toEntity(request);
+    Group group = mapper.createRequestToEntity(request);
 
-    User owner = resolveUser(request.owner());
+    User owner = findUserOrCreateTemporaryUser(request.owner());
     group.setOwner(owner);
 
     Set<User> members = new HashSet<>();
@@ -47,14 +47,14 @@ public class GroupServiceImpl implements GroupService {
 
     if (request.members() != null && !request.members().isEmpty()) {
       for (UserReferenceDto dto : request.members()) {
-        members.add(resolveUser(dto));
+        members.add(findUserOrCreateTemporaryUser(dto));
       }
     }
-
     group.setMembers(members);
 
     Group groupEntity = groupRepository.save(group);
-    return null;
+
+    return mapper.groupToResponseDto(groupEntity);
   }
 
   /**
@@ -64,7 +64,7 @@ public class GroupServiceImpl implements GroupService {
    * @param userDto data from the owner or member of the group
    * @return an existing user found by id or email, or a new temporary user
    */
-  private User resolveUser(UserReferenceDto userDto) {
+  private User findUserOrCreateTemporaryUser(UserReferenceDto userDto) {
     if (userDto.id() != null) {
       return userRepository
           .findById(userDto.id())

@@ -3,22 +3,32 @@ package fr.hb.mlang.projectrestapi.entity.dto;
 import fr.hb.mlang.projectrestapi.entity.Group;
 import fr.hb.mlang.projectrestapi.entity.User;
 import fr.hb.mlang.projectrestapi.entity.dto.group.CreateGroupRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
 import fr.hb.mlang.projectrestapi.entity.dto.user.UserReferenceDto;
 import java.util.List;
 import java.util.Set;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
 
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface GroupMapper {
 
-  Group toEntity(CreateGroupRequest request);
+  //--- Requests
 
-  User toEntity(UserReferenceDto dto);
+  Group createRequestToEntity(CreateGroupRequest request);
 
-  Set<User> toEntities(List<UserReferenceDto> dtos);
+  User userDtoToUser(UserReferenceDto dto);
 
-  //@Mapping(source = "owner.id", target = "ownerId")
-  //@Mapping(source = "members", target = "members")
-  //GroupResponse entityToResponseDTO(Group group);
+  Set<User> userDtosToUsers(List<UserReferenceDto> dtos);
+
+  //--- Responses
+
+  @Mapping(source = "owner", target = "owner")
+  @Mapping(source = "members", target = "members")
+  GroupResponse groupToResponseDto(Group group);
+
+  UserReferenceDto userToUserDto(User user);
+
+  List<UserReferenceDto> usersToUserDtos(Set<User> users);
 }
