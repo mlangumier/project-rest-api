@@ -1,11 +1,13 @@
 package fr.hb.mlang.projectrestapi.controller;
 
-import fr.hb.mlang.projectrestapi.entity.dto.group.GroupCreateRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.CreateGroupRequest;
 import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
 import fr.hb.mlang.projectrestapi.entity.Group;
+import fr.hb.mlang.projectrestapi.entity.dto.group.UpdateGroupRequest;
 import fr.hb.mlang.projectrestapi.service.GroupService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,15 +42,15 @@ public class GroupController {
   }
 
   @PostMapping
-  public ResponseEntity<GroupResponse> createGroup(@Valid @RequestBody GroupCreateRequest group) {
+  public ResponseEntity<GroupResponse> createGroup(@Valid @RequestBody CreateGroupRequest group) {
     GroupResponse response = groupService.createGroup(group);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Group> updateGroup(@PathVariable(name = "id") String groupId, @Valid @RequestBody Group group) {
-    // Update group-name, participants, expenses etc.
-    return ResponseEntity.ok(group);
+  public ResponseEntity<GroupResponse> updateGroup(@PathVariable(name = "id") UUID groupId, @Valid @RequestBody UpdateGroupRequest group) {
+    GroupResponse response = groupService.updateGroup(groupId, group);
+    return ResponseEntity.ok(response);
   }
 
   @DeleteMapping("/{id}")

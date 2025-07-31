@@ -23,6 +23,10 @@ public class UserMapperHelper {
    * @return the found <code>User</code> entity
    */
   public User map(UUID ownerId) {
+    // Get OwnerRequestDto:
+    // - if has ID: findById().orElseThrow
+    // - if only name: create temporary user (id + name only) <- delete user when deleting the group (no history if not created / logged in)
+
     return userRepository
         .findById(ownerId)
         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + ownerId));

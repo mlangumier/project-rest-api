@@ -1,7 +1,7 @@
 package fr.hb.mlang.projectrestapi.entity.dto;
 
 import fr.hb.mlang.projectrestapi.entity.Group;
-import fr.hb.mlang.projectrestapi.entity.dto.group.GroupCreateRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.CreateGroupRequest;
 import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,12 +12,12 @@ public interface GroupMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(source = "ownerId", target = "owner")
-  //@Mapping(source = "participants", target = "participants")
+  //@Mapping(source = "members", target = "members")
   @Mapping(target = "expenses", ignore = true)
   @Mapping(target = "settlements", ignore = true)
-  Group toEntity(GroupCreateRequest dto);
+  Group createDTOtoEntity(CreateGroupRequest dto);
 
   @Mapping(source = "owner.id", target = "ownerId")
-  @Mapping(source = "participants", target = "participants")
-  GroupResponse toResponse(Group group);
+  @Mapping(source = "members", target = "members")
+  GroupResponse entityToResponseDTO(Group group);
 }

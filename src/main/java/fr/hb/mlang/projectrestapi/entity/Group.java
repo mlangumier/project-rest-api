@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * Tricount {@link Group} created by a {@link User} (owner). Will contain multiple
- * <code>Users</code> (participants) who will be able to create {@link Expense}s (= pay for
+ * <code>Users</code> (members) who will be able to create {@link Expense}s (= pay for
  * multiple people, which generates {@link ExpenseShare}), and will list {@link Settlement}s (users
  * reimbursing those who made <code>expenses</code>).
  */
@@ -40,7 +40,7 @@ public class Group {
 
   @ManyToMany
   @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
-  private Set<User> participants = new HashSet<>();
+  private Set<User> members = new HashSet<>();
 
   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
   private Set<Expense> expenses = new HashSet<>();
@@ -66,7 +66,7 @@ public class Group {
     this.id = id;
     this.name = name;
     this.owner = owner;
-    this.participants.add(owner);
+    this.members.add(owner);
   }
 
   public UUID getId() {
@@ -93,12 +93,12 @@ public class Group {
     this.owner = owner;
   }
 
-  public Set<User> getParticipants() {
-    return participants;
+  public Set<User> getMembers() {
+    return members;
   }
 
-  public void setParticipants(Set<User> participants) {
-    this.participants = participants;
+  public void setMembers(Set<User> members) {
+    this.members = members;
   }
 
   public Set<Expense> getExpenses() {
@@ -120,11 +120,11 @@ public class Group {
   //--- Helper methods
 
   public void addParticipant(User participant) {
-    participants.add(participant);
+    members.add(participant);
   }
 
   public void removeParticipant(User participant) {
-    participants.remove(participant);
+    members.remove(participant);
   }
 
   public void addExpense(Expense expense) {
@@ -166,7 +166,7 @@ public class Group {
         "id='" + id + '\'' +
         ", name='" + name + '\'' +
         ", owner=" + owner +
-        ", participants=" + participants +
+        ", members=" + members +
         '}';
   }
 }

@@ -8,7 +8,7 @@ public record GroupResponse(
     UUID id,
     String name,
     SimpleUserDto ownerId,
-    Set<SimpleUserDto> participants
+    Set<SimpleUserDto> members
 ) {
 
 }

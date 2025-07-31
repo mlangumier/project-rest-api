@@ -1,7 +1,7 @@
 ### GET Groups - Get all groups
 GET {{base_url}}/group
 
-### POST Group - Create a group as an existing User & no participants
+### POST Group - Create a group as an existing User & no member
 POST {{base_url}}/group
 Content-Type: application/json
 
@@ -10,14 +10,14 @@ Content-Type: application/json
   "ownerId": "992b5bc9-17ea-40ad-9241-aecb0095f72a"
 }
 
-### (Not implemented yet) POST Group - Create a group as a visitor & with participants
+### (Not implemented yet) POST Group - Create a group as a visitor & with members
 POST {{base_url}}/group
 Content-Type: application/json
 
 {
   "name": "Campagne contre les Visigoths",
   "ownerId": "242d309c-6db7-4aec-8f40-26195ecd65d4",
-  "participants": [
+  "members": [
     "8aa850ca-b7c8-4949-985e-13de2f919b9b",
     "54e67b1d-445f-4fc8-82fc-2d4ba2e46ed4"
   ]

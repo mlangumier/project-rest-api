@@ -6,16 +6,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public record GroupCreateRequest(
-    @NotBlank(message = "Group requires a name ")
+public record UpdateGroupRequest(
+    @NotNull(message = "Group must have a valid id")
+    UUID id,
+
+    @NotBlank(message = "Group requires a name")
     @Size(min = 4, max = 64, message = "Group name must be between 4 and 64 characters long.")
     String name,
 
     @NotNull(message = "Group must have an owner")
     UUID ownerId
 
-    //List<UUID> participants
+    //@NotEmpty(message = "Group must have at least 1 participant")
+    //Set<UUID> members
+
+    //Set<UUID> expenses
+    //Set<UUID> settlements
 ) {
 
 }

@@ -72,7 +72,7 @@ public class DataLoader implements CommandLineRunner {
       //--- Generate Groups
 
       Group newGroup1 = new Group(null,"Kaamelott", arthur);
-      newGroup1.setParticipants(Set.of(arthur, lancelot, leodagan, bohort, perceval));
+      newGroup1.setMembers(Set.of(arthur, lancelot, leodagan, bohort, perceval));
       Group groupKaamelott = groupRepository.save(newGroup1);
 
       Group newGroup2 = new Group(null, "Mission", perceval);

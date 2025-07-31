@@ -44,7 +44,7 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
   private Set<Group> ownedGroups = new HashSet<>();
 
-  @ManyToMany(mappedBy = "participants")
+  @ManyToMany(mappedBy = "members")
   private Set<Group> groups = new HashSet<>();
 
   @OneToMany(mappedBy = "paidBy", cascade = CascadeType.ALL)
