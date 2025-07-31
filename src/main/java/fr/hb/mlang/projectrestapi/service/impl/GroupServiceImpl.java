@@ -5,7 +5,7 @@ import fr.hb.mlang.projectrestapi.entity.User;
 import fr.hb.mlang.projectrestapi.entity.dto.GroupMapper;
 import fr.hb.mlang.projectrestapi.entity.dto.group.CreateGroupRequest;
 import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
-import fr.hb.mlang.projectrestapi.entity.dto.group.UpdateGroupRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponseLight;
 import fr.hb.mlang.projectrestapi.entity.dto.user.UserReferenceDto;
 import fr.hb.mlang.projectrestapi.repository.GroupRepository;
 import fr.hb.mlang.projectrestapi.repository.UserRepository;
@@ -13,6 +13,7 @@ import fr.hb.mlang.projectrestapi.service.GroupService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,19 @@ public class GroupServiceImpl implements GroupService {
   }
 
   @Override
+  public List<GroupResponseLight> findAll() {
+    return mapper.groupsToResponseLights(groupRepository.findAll());
+  }
+
+  @Override
+  public GroupResponse findById(UUID id) {
+    Group group = groupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    return mapper.groupToResponseDto(group);
+  }
+
+  @Override
   @Transactional
-  public GroupResponse createGroup(CreateGroupRequest request) {
+  public GroupResponse create(CreateGroupRequest request) {
     Group group = mapper.createRequestToEntity(request);
 
     User owner = findUserOrCreateTemporaryUser(request.owner());
@@ -66,29 +78,14 @@ public class GroupServiceImpl implements GroupService {
    */
   private User findUserOrCreateTemporaryUser(UserReferenceDto userDto) {
     if (userDto.id() != null) {
-      return userRepository
-          .findById(userDto.id())
-          .orElseThrow(() -> new EntityNotFoundException(
-              "Couldn't find user of id: " + userDto.id()));
+      return userRepository.findById(userDto.id()).orElseThrow(EntityNotFoundException::new);
     }
 
     if (userDto.email() != null) {
-      return userRepository
-          .findByEmail(userDto.email())
-          .orElseThrow(() -> new EntityNotFoundException(
-              "Couldn't find user with email: " + userDto.email()));
+      return userRepository.findByEmail(userDto.email()).orElseThrow(EntityNotFoundException::new);
     }
 
     User temporaryUser = User.temporaryUser(userDto.name());
     return userRepository.save(temporaryUser);
-  }
-
-  @Override
-  public GroupResponse updateGroup(UUID groupId, UpdateGroupRequest request) {
-    //Group group = groupRepository.findById(groupId).orElseThrow(); // Do a reusable method
-    // Mapper: RequestDTO -> Entity
-    // return ResponseDto(Entity)
-
-    return null;
   }
 }

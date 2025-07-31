@@ -1,6 +1,9 @@
 ### GET Groups - Get all groups
 GET {{base_url}}/group
 
+### GET Group by ID
+GET {{base_url}}/group/d4ed32c1-63f3-46cf-8462-d6d1eae0aaba
+
 ### POST Group - Create a group as an existing User & no member
 POST {{base_url}}/group
 Content-Type: application/json
@@ -33,15 +36,4 @@ Content-Type: application/json
       "name": "Léodagan"
     }
   ]
-}
-
-### PATCH group - Update a group
-PATCH {{base_url}}/group/{{group_id}}
-Content-Type: application/json
-
-{
-  "id": "",
-  "name": "",
-  "owner": "",
-  "members": []
 }

@@ -2,12 +2,19 @@ package fr.hb.mlang.projectrestapi.service;
 
 import fr.hb.mlang.projectrestapi.entity.dto.group.CreateGroupRequest;
 import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponse;
-import fr.hb.mlang.projectrestapi.entity.dto.group.UpdateGroupRequest;
+import fr.hb.mlang.projectrestapi.entity.dto.group.GroupResponseLight;
+import java.util.List;
 import java.util.UUID;
 
 public interface GroupService {
 
-  GroupResponse createGroup(CreateGroupRequest request);
+  List<GroupResponseLight> findAll();
 
-  GroupResponse updateGroup(UUID groupId, UpdateGroupRequest request);
+  GroupResponse findById(UUID id);
+
+  GroupResponse create(CreateGroupRequest request);
+
+  // update
+
+  // delete
 }
