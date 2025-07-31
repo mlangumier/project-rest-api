@@ -1,7 +1,9 @@
 package fr.hb.mlang.projectrestapi.entity;
 
+import fr.hb.mlang.projectrestapi.utils.MoneyConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -33,8 +36,9 @@ public class Expense implements Serializable {
   @Column(name = "name", nullable = false, updatable = false)
   private String name;
 
-  @Column(name = "amount", nullable = false, updatable = false)
-  private Double amount;
+  @Convert(converter = MoneyConverter.class)
+  @Column(name = "amount", precision = 10, scale = 2, nullable = false,  updatable = false)
+  private BigDecimal amount;
 
   @Column(name = "paid_at", nullable = false, updatable = false)
   private LocalDateTime paidAt;
@@ -68,7 +72,11 @@ public class Expense implements Serializable {
    * @param group  Entity {@link Group} this expense belongs to
    */
   public Expense(
-      UUID id, String name, Double amount, LocalDateTime paidAt, User paidBy,
+      UUID id,
+      String name,
+      BigDecimal amount,
+      LocalDateTime paidAt,
+      User paidBy,
       Group group
   ) {
     this.id = id;
@@ -95,11 +103,11 @@ public class Expense implements Serializable {
     this.name = name;
   }
 
-  public Double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public void setAmount(Double amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 

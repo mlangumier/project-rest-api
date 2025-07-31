@@ -1,6 +1,8 @@
 package fr.hb.mlang.projectrestapi.entity;
 
+import fr.hb.mlang.projectrestapi.utils.MoneyConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,8 +27,9 @@ public class ExpenseShare implements Serializable {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "amount_owed", nullable = false, updatable = false)
-  private Double amountOwed;
+  @Convert(converter = MoneyConverter.class)
+  @Column(name = "amount_owed", precision = 10, scale = 2, nullable = false, updatable = false)
+  private BigDecimal amountOwed;
 
   @Column(name = "is_paid", nullable = false)
   private boolean paid;
@@ -54,7 +58,7 @@ public class ExpenseShare implements Serializable {
    * @param expense    <code>Expense</code> that generated this share
    * @param debtor     {@link User} who owes the <code>share</code>
    */
-  public ExpenseShare(UUID id, Double amountOwed, boolean paid, Expense expense, User debtor) {
+  public ExpenseShare(UUID id, BigDecimal amountOwed, boolean paid, Expense expense, User debtor) {
     this.id = id;
     this.amountOwed = amountOwed;
     this.paid = paid;
@@ -70,11 +74,11 @@ public class ExpenseShare implements Serializable {
     this.id = id;
   }
 
-  public Double getAmountOwed() {
+  public BigDecimal getAmountOwed() {
     return amountOwed;
   }
 
-  public void setAmountOwed(Double amountOwed) {
+  public void setAmountOwed(BigDecimal amountOwed) {
     this.amountOwed = amountOwed;
   }
 

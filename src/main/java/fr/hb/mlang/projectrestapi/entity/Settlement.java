@@ -1,6 +1,8 @@
 package fr.hb.mlang.projectrestapi.entity;
 
+import fr.hb.mlang.projectrestapi.utils.MoneyConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,8 +29,9 @@ public class Settlement implements Serializable {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "amount", nullable = false, updatable = false)
-  private Double amount;
+  @Convert(converter = MoneyConverter.class)
+  @Column(name = "amount", precision = 10, scale = 2, nullable = false, updatable = false)
+  private BigDecimal amount;
 
   @Column(name = "paid_at", nullable = false, updatable = false)
   private LocalDateTime paidAt;
@@ -67,8 +71,14 @@ public class Settlement implements Serializable {
    * @param toUser   <code>User</code> that receives the settlement
    */
   public Settlement(
-      UUID id, Double amount, LocalDateTime paidAt, String comment, Group group,
-      User fromUser, User toUser) {
+      UUID id,
+      BigDecimal amount,
+      LocalDateTime paidAt,
+      String comment,
+      Group group,
+      User fromUser,
+      User toUser
+  ) {
     this.id = id;
     this.amount = amount;
     this.paidAt = paidAt;
@@ -86,11 +96,11 @@ public class Settlement implements Serializable {
     this.id = id;
   }
 
-  public Double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public void setAmount(Double amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 
