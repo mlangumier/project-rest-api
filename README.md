@@ -20,7 +20,7 @@ dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
 ### Fonctionnalités attendues
 
 - [x] Créer un groupe de dépenses
-- [ ] Entrer des dépenses dans ce groupe (ex : Marc - Billet de train - 25€)
+- [x] Entrer des dépenses dans ce groupe (ex : Marc - Billet de train - 25€)
 - [ ] Consulter la liste et le total des dépenses d'un groupe, filtrer par personne et montant
   (inférieur ou supérieur à...)
 - [ ] Consulter le détail des dépenses, qui doit combien à qui, pouvoir indiquer qu'on a payé son dû

@@ -4,7 +4,7 @@
 GET {{group_url}}
 
 ### GET Group by ID
-GET {{group_url}}/{{groups.kaamelott.id}}
+GET {{group_url}}/{{groups.kaamelott}}
 
 ### POST Group - Create a group as an existing User & no member
 POST {{group_url}}
@@ -13,7 +13,7 @@ Content-Type: application/json
 {
   "name": "Visite diplomatique en Andalousie",
   "owner": {
-    "id": "{{users.bohort.id}}",
+    "id": "{{users.bohort}}",
     "name": "Bohort",
     "email": "bohort@test.com"
   }
@@ -30,7 +30,7 @@ Content-Type: application/json
   },
   "members": [
     {
-      "id": "{{users.arthur.id}}",
+      "id": "{{users.arthur}}",
       "name": "Arthur",
       "email": "arthur@test.com"
     },

@@ -42,7 +42,7 @@ public class User implements UserDetails, Serializable {
   @Column(name = "password")
   private String password;
 
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Group> ownedGroups = new HashSet<>();
 
   @ManyToMany(mappedBy = "members")

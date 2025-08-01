@@ -32,7 +32,7 @@ public class ExpenseShare implements Serializable {
   private BigDecimal amountOwed;
 
   @Column(name = "is_paid", nullable = false)
-  private boolean paid;
+  private boolean isPaid;
 
   @ManyToOne
   @JoinColumn(name = "expense_id", nullable = false, updatable = false)
@@ -54,14 +54,14 @@ public class ExpenseShare implements Serializable {
    *
    * @param id         UUID identifier
    * @param amountOwed Amount owed regarding the {@link Expense}
-   * @param paid       Boolean that specifies if the share has been reimbursed or not
+   * @param isPaid       Boolean that specifies if the share has been reimbursed or not
    * @param expense    <code>Expense</code> that generated this share
    * @param debtor     {@link User} who owes the <code>share</code>
    */
-  public ExpenseShare(UUID id, BigDecimal amountOwed, boolean paid, Expense expense, User debtor) {
+  public ExpenseShare(UUID id, BigDecimal amountOwed, boolean isPaid, Expense expense, User debtor) {
     this.id = id;
     this.amountOwed = amountOwed;
-    this.paid = paid;
+    this.isPaid = isPaid;
     this.expense = expense;
     this.debtor = debtor;
   }
@@ -82,12 +82,12 @@ public class ExpenseShare implements Serializable {
     this.amountOwed = amountOwed;
   }
 
-  public boolean isPaid() {
-    return paid;
+  public boolean getIsPaid() {
+    return isPaid;
   }
 
-  public void setPaid(boolean paid) {
-    this.paid = paid;
+  public void setIsPaid(boolean paid) {
+    this.isPaid = paid;
   }
 
   public Expense getExpense() {
@@ -106,17 +106,23 @@ public class ExpenseShare implements Serializable {
     this.debtor = debtor;
   }
 
+  //INFO: equals & hashCode here also check that the ID isn't null (Using Set<> compares items with this method and remove non-persisted items (no ID))
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof ExpenseShare that)) {
       return false;
     }
-    return Objects.equals(getId(), that.getId());
+
+    if (getId() != null && that.getId() != null) {
+      return Objects.equals(getId(), that.getId());
+    }
+
+    return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(getId());
+    return id != null ? Objects.hashCode(getId()) : System.identityHashCode(this);
   }
 
   @Override
@@ -124,9 +130,9 @@ public class ExpenseShare implements Serializable {
     return "ExpenseShare{" +
         "id='" + id + '\'' +
         ", amountOwed=" + amountOwed +
-        ", paid=" + paid +
-        ", expense=" + expense +
-        ", debtor=" + debtor +
+        ", paid=" + isPaid +
+        ", expense=" + expense.getName() +
+        ", debtor=" + debtor.getName() +
         '}';
   }
 }

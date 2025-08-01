@@ -18,6 +18,10 @@ public class MoneyConverter implements AttributeConverter<BigDecimal, BigDecimal
 
   @Override
   public BigDecimal convertToEntityAttribute(BigDecimal dbData) {
-    return dbData;
+    if (dbData == null) {
+      return null;
+    }
+
+    return dbData.setScale(2, RoundingMode.HALF_UP);
   }
 }

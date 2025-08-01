@@ -6,12 +6,12 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record UserPaidForDto(
-    @NotNull
+    @NotNull(message = "User must have an id")
     UUID id,
 
-    @NotNull
-    @DecimalMin("0.01")
-    BigDecimal amount
+    @NotNull(message = "Amount cannot be null")
+    @DecimalMin(value = "0.01", message = "Amount must be positive")
+    BigDecimal amountOwed
 ) {
 
 }

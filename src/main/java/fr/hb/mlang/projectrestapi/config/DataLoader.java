@@ -11,10 +11,8 @@ import fr.hb.mlang.projectrestapi.repository.GroupRepository;
 import fr.hb.mlang.projectrestapi.repository.SettlementRepository;
 import fr.hb.mlang.projectrestapi.repository.UserRepository;
 import fr.hb.mlang.projectrestapi.utils.MoneyUtils;
+import jakarta.transaction.Transactional;
 import java.io.InvalidObjectException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -57,6 +55,7 @@ public class DataLoader implements CommandLineRunner {
   }
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
     if (!shouldGenerateData) {
       return;
@@ -84,23 +83,23 @@ public class DataLoader implements CommandLineRunner {
 
       //--- Generate Expenses, ExpenseShares & Settlements
 
-      Expense expense1 = expenseRepository.save(new Expense(null,"Château", MoneyUtils.of(2000.00), LocalDateTime.now(), arthur, groupKaamelott));
+      Expense expense1 = expenseRepository.save(new Expense(null,"Château", MoneyUtils.of(2000.00), arthur, groupKaamelott));
       ExpenseShare expenseShare11 = new ExpenseShare(null, MoneyUtils.of(500.00),false, expense1, lancelot);
       ExpenseShare expenseShare12 = new ExpenseShare(null, MoneyUtils.of(500.00),false, expense1, leodagan);
       expenseShareRepository.saveAll(List.of(expenseShare11, expenseShare12));
-      settlementRepository.save(new Settlement(null, MoneyUtils.of(500.00), LocalDateTime.now(), "Remboursement Château", groupKaamelott, lancelot, arthur));
-      expenseShare11.setPaid(true);
+      settlementRepository.save(new Settlement(null, MoneyUtils.of(500.00), "Remboursement Château", groupKaamelott, lancelot, arthur));
+      expenseShare11.setIsPaid(true);
       expenseShareRepository.save(expenseShare11);
 
-      Expense expense2 = expenseRepository.save(new Expense(null,"Armée",MoneyUtils.of(500.00), LocalDateTime.now(), leodagan, groupKaamelott));
+      Expense expense2 = expenseRepository.save(new Expense(null,"Armée", MoneyUtils.of(500.00), leodagan, groupKaamelott));
       ExpenseShare expenseShare21 = new ExpenseShare(null, MoneyUtils.of(400.00),false, expense2, arthur);
       expenseShareRepository.save(expenseShare21);
-      settlementRepository.save(new Settlement(null, MoneyUtils.of(1.00), LocalDateTime.now(), "La valeur de votre armée", groupKaamelott, arthur, leodagan));
+      settlementRepository.save(new Settlement(null, MoneyUtils.of(1.00), "La valeur de votre armée", groupKaamelott, arthur, leodagan));
 
-      Expense expense3 = expenseRepository.save(new Expense(null,"Taverne",MoneyUtils.of(12.80), LocalDateTime.now(), arthur, groupMission));
+      Expense expense3 = expenseRepository.save(new Expense(null,"Taverne", MoneyUtils.of(12.80), arthur, groupMission));
       ExpenseShare expenseShare31 = new ExpenseShare(null, MoneyUtils.of(2.80),false, expense3, perceval);
       expenseShareRepository.save(expenseShare31);
-      settlementRepository.save(new Settlement(null, MoneyUtils.of(0.37), LocalDateTime.now(), "Début remboursement", groupMission, perceval, arthur));
+      settlementRepository.save(new Settlement(null, MoneyUtils.of(0.37), "Début remboursement", groupMission, perceval, arthur));
 
       logger.info("Data generated. Database is ready to use!");
       } catch (Exception e) {

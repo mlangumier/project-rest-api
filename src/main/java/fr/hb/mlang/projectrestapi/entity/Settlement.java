@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -58,12 +59,18 @@ public class Settlement implements Serializable {
     // Required by JPA
   }
 
+  @PrePersist
+  public void prePersist() {
+    if (this.paidAt == null) {
+      this.paidAt = LocalDateTime.now();
+    }
+  }
+
   /**
    * Entity constructor
    *
    * @param id       UUID identifier
    * @param amount   Amount being transferred from one {@link User} to the other
-   * @param paidAt   Date and time of the settlement
    * @param comment  Reason for the settlement (title, description, comment, etc.)
    * @param group    {@link Group} that originated the {@link Expense} and where the settlement will
    *                 happen
@@ -73,7 +80,6 @@ public class Settlement implements Serializable {
   public Settlement(
       UUID id,
       BigDecimal amount,
-      LocalDateTime paidAt,
       String comment,
       Group group,
       User fromUser,
@@ -81,7 +87,6 @@ public class Settlement implements Serializable {
   ) {
     this.id = id;
     this.amount = amount;
-    this.paidAt = paidAt;
     this.comment = comment;
     this.group = group;
     this.fromUser = fromUser;
@@ -106,10 +111,6 @@ public class Settlement implements Serializable {
 
   public LocalDateTime getPaidAt() {
     return paidAt;
-  }
-
-  public void setPaidAt(LocalDateTime paidAt) {
-    this.paidAt = paidAt;
   }
 
   public String getComment() {
@@ -160,13 +161,13 @@ public class Settlement implements Serializable {
   @Override
   public String toString() {
     return "Settlement{" +
-        "id='" + id + '\'' +
+        "id=" + id +
         ", amount=" + amount +
         ", paidAt=" + paidAt +
         ", comment='" + comment + '\'' +
-        ", group=" + group +
-        ", fromUser=" + fromUser +
-        ", toUser=" + toUser +
+        ", group=" + group.getName() +
+        ", fromUser=" + fromUser.getName() +
+        ", toUser=" + toUser.getName() +
         '}';
   }
 }

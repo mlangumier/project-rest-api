@@ -40,13 +40,13 @@ public class Group implements Serializable{
   private User owner;
 
   @ManyToMany
-  @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+  @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<User> members = new HashSet<>();
 
-  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Expense> expenses = new HashSet<>();
 
-  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Settlement> settlements = new HashSet<>();
 
   /**
@@ -166,8 +166,7 @@ public class Group implements Serializable{
     return "Group{" +
         "id='" + id + '\'' +
         ", name='" + name + '\'' +
-        ", owner=" + owner +
-        ", members=" + members +
+        ", owner=" + owner.getName() +
         '}';
   }
 }

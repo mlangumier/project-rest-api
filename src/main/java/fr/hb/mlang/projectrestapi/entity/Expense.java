@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -51,8 +52,15 @@ public class Expense implements Serializable {
   @JoinColumn(name = "group_id", nullable = false, updatable = false)
   private Group group;
 
-  @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<ExpenseShare> expenseShares = new HashSet<>();
+
+  @PrePersist
+  public void prePersist() {
+    if (this.paidAt == null) {
+      this.paidAt = LocalDateTime.now();
+    }
+  }
 
   /**
    * Default constructor
@@ -67,7 +75,6 @@ public class Expense implements Serializable {
    * @param id     UUID identifier
    * @param name   Name of the expense
    * @param amount Total amount paid for this expense
-   * @param paidAt Date and time when the expense was paid
    * @param paidBy Entity {@link User} who paid for the expense
    * @param group  Entity {@link Group} this expense belongs to
    */
@@ -75,14 +82,12 @@ public class Expense implements Serializable {
       UUID id,
       String name,
       BigDecimal amount,
-      LocalDateTime paidAt,
       User paidBy,
       Group group
   ) {
     this.id = id;
     this.name = name;
     this.amount = amount;
-    this.paidAt = paidAt;
     this.paidBy = paidBy;
     this.group = group;
   }
@@ -115,10 +120,6 @@ public class Expense implements Serializable {
     return paidAt;
   }
 
-  public void setPaidAt(LocalDateTime paidAt) {
-    this.paidAt = paidAt;
-  }
-
   public User getPaidBy() {
     return paidBy;
   }
@@ -146,8 +147,8 @@ public class Expense implements Serializable {
   //--- Helper methods
 
   public void addExpenseShare(ExpenseShare expenseShare) {
-    expenseShare.setExpense(this);
     this.expenseShares.add(expenseShare);
+    expenseShare.setExpense(this);
   }
 
   public void removeExpenseShare(ExpenseShare expenseShare) {
@@ -175,8 +176,8 @@ public class Expense implements Serializable {
         ", name='" + name + '\'' +
         ", amount=" + amount +
         ", paidAt=" + paidAt +
-        ", paidBy=" + paidBy +
-        ", group=" + group +
+        ", paidBy=" + paidBy.getName() +
+        ", group=" + group.getName() +
         '}';
   }
 }

@@ -1,0 +1,45 @@
+@expense_url={{base_url}}/groups/{{groups.kaamelott}}/expenses
+@group_expense_url={{base_url}}/groups/{{groups.kaamelott}}/expenses
+
+### GET Expenses - Get all expenses in a group
+GET {{group_expense_url}}
+
+### POST Expense - Create an expense for 2 users (including payer)
+POST {{group_expense_url}}
+Content-Type: application/json
+
+{
+  "name": "Rénovation Château",
+  "amount": "800.00",
+  "paidById": "{{users.arthur}}",
+  "usersPaidFor": [
+    {
+      "id": "{{users.arthur}}",
+      "amountOwed": "400.00"
+    },
+    {
+      "id": "{{users.lancelot}}",
+      "amountOwed": "400.00"
+    }
+  ]
+}
+
+### POST Expense - Create an expense for 4 users (not-including payer)
+POST {{group_expense_url}}
+Content-Type: application/json
+
+{
+  "name": "Fête du Printemps",
+  "amount": "200.00",
+  "paidById": "{{users.arthur}}",
+  "usersPaidFor": [
+    {
+      "id": "{{users.bohort}}",
+      "amountOwed": "150.00"
+    },
+    {
+      "id": "{{users.perceval}}",
+      "amountOwed": "50.00"
+    }
+  ]
+}

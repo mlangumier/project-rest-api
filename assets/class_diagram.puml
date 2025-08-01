@@ -15,29 +15,30 @@ class Group {
 class Expense {
     id: UUID
     name: String
-    amount: Double
+    amount: BigDecimal
     paidAt: LocalDateTime
 }
 
 class ExpenseShare {
     id: UUID
-    amountOwed: Double
+    amountOwed: BigDecimal
+    isPaid: boolean
 }
 
 class Settlement {
     id: UUID
-    amount: Double
+    amount: BigDecimal
     paidAt: LocalDateTime
     comment: String
 }
 
 User "1" -- "0..*" Group: Owns
-User "1..*" -- "0..*" Group: Participates
+User "1..*" -- "0..*" Group: IsMemberOf
 
 Group "1" -- "0..*" Expense: Has
 User "1" -- "0..*" Expense: Pays
 Expense "1" -- "1..*" ExpenseShare: Generates
-ExpenseShare "1" -- "1" User: BelongsTo
+ExpenseShare "1" -- "1" User: Owes
 
 User "1" -- "0..*" Settlement: Pays -> fromUser
 User "1" -- "0..*" Settlement: Receives -> toUser
