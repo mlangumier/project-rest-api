@@ -1,0 +1,5 @@
+### POST Generate data - Generate data if none were found
+POST {{base_url}}/database
+
+### POST Reset data - Empties the table and re-populates them with default data
+POST {{base_url}}/database/reset
