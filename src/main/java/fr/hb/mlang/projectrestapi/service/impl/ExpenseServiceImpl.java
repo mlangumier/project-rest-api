@@ -6,13 +6,17 @@ import fr.hb.mlang.projectrestapi.entity.Group;
 import fr.hb.mlang.projectrestapi.entity.User;
 import fr.hb.mlang.projectrestapi.entity.dto.ExpenseMapper;
 import fr.hb.mlang.projectrestapi.entity.dto.expense.CreateExpenseRequest;
-import fr.hb.mlang.projectrestapi.entity.dto.expense.ExpenseResponse;
+import fr.hb.mlang.projectrestapi.entity.dto.expense.CreateExpenseResponse;
+import fr.hb.mlang.projectrestapi.entity.dto.expense.GroupExpensesResponse;
 import fr.hb.mlang.projectrestapi.entity.dto.user.UserPaidForDto;
 import fr.hb.mlang.projectrestapi.repository.ExpenseRepository;
 import fr.hb.mlang.projectrestapi.repository.GroupRepository;
 import fr.hb.mlang.projectrestapi.service.ExpenseService;
+import fr.hb.mlang.projectrestapi.utils.MoneyUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,8 +36,18 @@ public class ExpenseServiceImpl implements ExpenseService {
   }
 
   @Override
+  public GroupExpensesResponse getFromGroup(UUID groupId, UUID userId, BigDecimal minAmount, BigDecimal maxAmount) {
+    Group group = groupRepository.findById(groupId).orElseThrow(EntityNotFoundException::new);
+
+    List<Expense> expenses = expenseRepository.findGroupExpenses(group.getId(), userId, minAmount, maxAmount);
+    BigDecimal total = expenses.stream().map(Expense::getAmount).reduce(MoneyUtils.of(0), BigDecimal::add);
+
+    return new GroupExpensesResponse(mapper.entitiesToResponseDtos(expenses), total);
+  }
+
+  @Override
   @Transactional
-  public ExpenseResponse create(UUID groupId, CreateExpenseRequest request) {
+  public CreateExpenseResponse create(UUID groupId, CreateExpenseRequest request) {
     // Fetch group
     Group group = groupRepository.findById(groupId).orElseThrow(EntityNotFoundException::new);
 
