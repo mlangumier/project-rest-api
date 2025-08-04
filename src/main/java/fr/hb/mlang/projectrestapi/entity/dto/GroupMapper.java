@@ -11,9 +11,8 @@ import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
-import org.mapstruct.Named;
 
-@Mapper(componentModel = ComponentModel.SPRING)
+@Mapper(componentModel = ComponentModel.SPRING, uses = {UserMapper.class})
 public interface GroupMapper {
 
   //--- Requests
@@ -30,18 +29,9 @@ public interface GroupMapper {
   @Mapping(source = "members", target = "members")
   GroupResponse groupToResponseDto(Group group);
 
-  UserReferenceDto userToUserDto(User user);
-
-  List<UserReferenceDto> usersToUserDtos(Set<User> users);
-
   @Mapping(source = "owner.name", target = "owner")
   @Mapping(source = "members", target = "members", qualifiedByName = "usersToNames")
   GroupResponseLight groupToResponseLight(Group groups);
 
   List<GroupResponseLight> groupsToResponseLights(List<Group> groups);
-
-  @Named("usersToNames")
-  static List<String> usersToNames(Set<User> users) {
-    return users == null ? List.of() : users.stream().map(User::getName).toList();
-  }
 }

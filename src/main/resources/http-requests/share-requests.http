@@ -1,0 +1,11 @@
+@share_url={{base_url}}/expense-shares
+
+### PATCH Share - Update value "isPaid" of the expense share
+PATCH {{share_url}}/aa4ade56-0bd0-494f-88df-c4f0dccf00d6/paid
+Content-Type: application/json
+
+{
+  "isPaid": true
+}
+
+###
