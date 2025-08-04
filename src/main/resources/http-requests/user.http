@@ -1,0 +1,17 @@
+@auth_url={{base_url}}/auth
+@user_url={{base_url}}/users
+
+### POST Login - Signs in the user & sets the token as a variable for next requests
+POST {{auth_url}}/login
+Content-Type: application/json
+
+{
+  "username": "arthur@test.com",
+  "password": "arthur"
+}
+
+> {% client.global.set("token", response.body.token); %}
+
+### GET Groups - Get all groups the user is a member of
+GET {{user_url}}/groups
+Authorization: Bearer {{token}}

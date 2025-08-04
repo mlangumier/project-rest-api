@@ -3,6 +3,8 @@ package fr.hb.mlang.projectrestapi.config;
 import fr.hb.mlang.projectrestapi.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,10 +12,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
+  private final AuthenticationConfiguration authConfig;
   private final UserRepository userRepository;
 
-  public ApplicationConfig(UserRepository userRepository) {
+  public ApplicationConfig(AuthenticationConfiguration authConfig, UserRepository userRepository) {
+    this.authConfig = authConfig;
     this.userRepository = userRepository;
+  }
+
+  @Bean
+  AuthenticationManager authenticationManager() throws Exception{
+    return authConfig.getAuthenticationManager();
   }
 
   @Bean

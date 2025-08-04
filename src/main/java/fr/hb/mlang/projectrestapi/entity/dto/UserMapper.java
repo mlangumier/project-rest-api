@@ -11,6 +11,8 @@ import org.mapstruct.Named;
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface UserMapper {
 
+  //--- Response
+
   UserReferenceDto entityToUserDto(User user);
 
   List<UserReferenceDto> usersToUserDtos(Set<User> users);

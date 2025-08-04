@@ -13,6 +13,17 @@ lorsqu'on démarre l'application, et nécessite que `Docker` soit lancé. Pour l
 serveur MySQL local, il suffit de commenter le contenu du fichier `compose.yaml`, ou supprimer la
 dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
 
+### JWT Secret Key
+
+Get a secret key on this website:
+[Online secret key generator (in 256 bits)](https://jwtsecrets.com/#generator)
+
+In `src/main/resources/application-dev.properties`:
+
+```properties
+app.jwt.secret.key=<my-secret-key>
+```
+
 ## Objectifs
 
 [Voir l'énoncé](https://gitlab.com/jeandemel-formations/hb-cda-2025/projets/projet-rest)
@@ -25,7 +36,7 @@ dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
   (inférieur ou supérieur à...)
 - [x] Consulter le détail des dépenses, qui doit combien à qui
 - [x] Pouvoir indiquer qu'on a payé son dû
-- [ ] S'authentifier pour voir les différents groupes auxquels on fait partis
+- [x] S'authentifier pour voir les différents groupes auxquels on fait partis
 
 ### Étapes
 
