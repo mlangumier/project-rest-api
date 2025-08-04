@@ -13,6 +13,9 @@ GET {{group_expense_url}}?minAmount=450&maxAmount=550
 ### GET Group Expenses - Get all expenses from a group, by a user, between min & max amount
 GET {{group_expense_url}}?paidBy={{users.arthur}}&minAmount=450&maxAmount=550
 
+### GET Group Expenses Details - Get expenses details (how much each member owes and to whom)
+GET {{group_expense_url}}/details
+
 ### POST Expense - Create an expense for 2 users (including payer)
 POST {{group_expense_url}}
 Content-Type: application/json
@@ -48,6 +51,38 @@ Content-Type: application/json
     },
     {
       "id": "{{users.perceval}}",
+      "amountOwed": "50.00"
+    }
+  ]
+}
+
+### POST Expense - Create an expense for 4 users (including payer)
+POST {{group_expense_url}}
+Content-Type: application/json
+
+{
+  "name": "Fête des Cerises",
+  "amount": "500.00",
+  "paidById": "{{users.bohort}}",
+  "usersPaidFor": [
+    {
+      "id": "{{users.bohort}}",
+      "amountOwed": "200.00"
+    },
+    {
+      "id": "{{users.arthur}}",
+      "amountOwed": "100.00"
+    },
+    {
+      "id": "{{users.lancelot}}",
+      "amountOwed": "100.00"
+    },
+    {
+      "id": "{{users.perceval}}",
+      "amountOwed": "50.00"
+    },
+    {
+      "id": "{{users.leodagan}}",
       "amountOwed": "50.00"
     }
   ]

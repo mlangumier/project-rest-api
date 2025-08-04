@@ -2,6 +2,7 @@ package fr.hb.mlang.projectrestapi.controller;
 
 import fr.hb.mlang.projectrestapi.entity.dto.expense.CreateExpenseRequest;
 import fr.hb.mlang.projectrestapi.entity.dto.expense.CreateExpenseResponse;
+import fr.hb.mlang.projectrestapi.entity.dto.expense.GroupExpensesDetailsResponse;
 import fr.hb.mlang.projectrestapi.entity.dto.expense.GroupExpensesResponse;
 import fr.hb.mlang.projectrestapi.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -35,6 +36,12 @@ public class ExpenseController {
       @RequestParam(required = false)BigDecimal maxAmount
       ) {
     GroupExpensesResponse response = expenseService.getFromGroup(groupId, paidBy, minAmount, maxAmount);
+    return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/groups/{groupId}/expenses/details")
+  public ResponseEntity<GroupExpensesDetailsResponse> getGroupExpensesDetails(@PathVariable UUID groupId) {
+    GroupExpensesDetailsResponse response = expenseService.getDetailsFromGroup(groupId);
     return ResponseEntity.ok(response);
   }
 
