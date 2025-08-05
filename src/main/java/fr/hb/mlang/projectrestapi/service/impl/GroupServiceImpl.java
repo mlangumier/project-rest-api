@@ -49,6 +49,10 @@ public class GroupServiceImpl implements GroupService {
   @Override
   @Transactional
   public GroupResponse create(CreateGroupRequest request) {
+    if (request.owner() == null) {
+      throw new IllegalArgumentException("Missing 'owner' parameter.");
+    }
+
     Group group = mapper.createRequestToEntity(request);
 
     User owner = findUserOrCreateTemporaryUser(request.owner());

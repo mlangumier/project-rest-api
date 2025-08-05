@@ -1,0 +1,12 @@
+{
+  "name": "Repas diplomatique",
+  "members": [
+    {
+      "name": "Arthur",
+      "email": "arthur@test.com"
+    },
+    {
+      "name": "Léodagan"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
+//TODO: separate 2 DTOs to separate request (with field validation) & response (clean)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record UserReferenceDto(
     UUID id,

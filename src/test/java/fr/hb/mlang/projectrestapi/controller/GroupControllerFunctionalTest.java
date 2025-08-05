@@ -23,10 +23,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 class GroupControllerFunctionalTest {
 
-  @Value("classpath:json/group-create-request.json")
+  @Value("classpath:json/group/create-request.json")
   private Resource groupCreateRequest;
-  @Value("classpath:json/group-create-response.json")
+  @Value("classpath:json/group/create-response.json")
   private Resource groupCreateResponse;
+  @Value("classpath:json/group/create-request-fail-no-owner.json")
+  private Resource groupCreateRequestFail;
 
   @Autowired
   private DatabaseService databaseService;
@@ -44,7 +46,7 @@ class GroupControllerFunctionalTest {
   }
 
   @Test
-  void shouldCreateGroupSuccessfully() throws Exception {
+  void givenCreateGroupRequest_whenGoodRequest_thenCreateGroupShouldSucceed() throws Exception {
     String requestJson = Files.readString(groupCreateRequest.getFile().toPath());
     String expectedResponse = Files.readString(groupCreateResponse.getFile().toPath());
 
@@ -63,5 +65,17 @@ class GroupControllerFunctionalTest {
         response,
         new CustomComparator(JSONCompareMode.LENIENT, new Customization("id", (o1, o2) -> true))
     );
+  }
+
+  @Test
+  void givenCreateGroupRequest_whenNoGroupOwner_thenCreateGroupShouldFail() throws Exception {
+    String wrongRequest = Files.readString(groupCreateRequestFail.getFile().toPath());
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/api/v1/groups")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(wrongRequest))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
   }
 }
