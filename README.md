@@ -13,6 +13,42 @@ lorsqu'on démarre l'application, et nécessite que `Docker` soit lancé. Pour l
 serveur MySQL local, il suffit de commenter le contenu du fichier `compose.yaml`, ou supprimer la
 dépendence `spring-boot-docker-compose` du fichier `pom.xml`.
 
+### Lancer l'application
+
+S'assurer que Docker Desktop soit ouvert (si vous conservez les fichiers mentionnés ci-dessus),
+installer les dépendances :
+
+```shell
+  mvc clean install
+```
+
+Puis lancer le projet, ce qui lancera le serveur MySQL sur un container Docker en même temps :
+
+```shell
+  mvn spring-boot:run
+```
+
+La base de données sera remplie automatiquement lors du premier lancement grâce au `DataLoader`.
+Elle peut également être remplie manuellement ou réinitialisée grâce à des requêtes présentes dans
+les fichiers `.http`.
+
+### Fichiers de requêtes HTTP
+
+Variable: `base_url: http://localhost:8080/api/v1`
+
+#### IntelliJ IDEA (HttpClient)
+
+Ouvrir un des fichiers `.http` qui se trouvent dans le dossier `resources/http-requests` à
+l'intérieur du chemin principal, appuyer sur le bouton `Run with:` dans le menu contextuel, puis
+sélectionner `development`. Cela permettra aux fichiers `.http` de lire les variables contenues dans
+le fichier `http-client.env.json`. Après cela, il suffira de lancer les requêtes depuis le fichier
+en cliquant sur la flèche `run`.
+
+#### VSCode
+
+Pour VSCode, il faudra soit utiliser un outil comme Postman, ou une extension comme Bruno, et
+adapter le contenu selon l'outil.
+
 ## Objectifs
 
 [Voir l'énoncé](https://gitlab.com/jeandemel-formations/hb-cda-2025/projets/projet-rest)
