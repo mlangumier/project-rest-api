@@ -1,0 +1,15 @@
+{
+  "name": "Rénovation Château",
+  "amount": "",
+  "paidByName": "arthur",
+  "usersPaidFor": [
+    {
+      "name": "arthur",
+      "amountOwed": "400.00"
+    },
+    {
+      "name": "lancelot",
+      "amountOwed": "400.00"
+    }
+  ]
+}
