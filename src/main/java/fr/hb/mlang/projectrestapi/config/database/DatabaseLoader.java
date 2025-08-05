@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!prod")
+@Profile("dev")
 public class DatabaseLoader implements ApplicationRunner {
 
   private final DatabaseService dbService;

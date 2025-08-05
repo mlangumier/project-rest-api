@@ -1,0 +1,18 @@
+{
+  "name": "Repas diplomatique",
+  "owner": {
+    "name": "Roi Burgonde"
+  },
+  "members": [
+    {
+      "name": "Arthur",
+      "email": "arthur@test.com"
+    },
+    {
+      "name": "Léodagan"
+    },
+    {
+      "name": "Roi Burgonde"
+    }
+  ]
+}

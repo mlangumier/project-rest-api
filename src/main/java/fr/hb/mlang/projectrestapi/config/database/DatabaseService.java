@@ -44,7 +44,7 @@ public class DatabaseService {
   @Transactional
   public void loadDefaultData() {
     //--- Users
-    User arthur = new User(null,"Arthur","arthur@test.com",encoder.encode("arthur"));
+    User arthur = new User(null,"Arthur","arthur@test.com", encoder.encode("arthur"));
     User lancelot = new User(null, "Lancelot", "lancelot@test.com", encoder.encode("lancelot"));
     User bohort = new User(null, "Bohort", "bohort@test.com", encoder.encode("bohort"));
     User leodagan = new User(null, "Léodagan", null, null);
@@ -87,7 +87,7 @@ public class DatabaseService {
   }
 
   @Transactional
-  public void resetDatabase() {
+  public void deleteData() {
     expenseRepository.deleteAll();
     expenseRepository.flush();
 
@@ -96,7 +96,11 @@ public class DatabaseService {
 
     userRepository.deleteAll();
     userRepository.flush();
+  }
 
+  @Transactional
+  public void resetDatabase() {
+    this.deleteData();
     this.loadDefaultData();
   }
 }

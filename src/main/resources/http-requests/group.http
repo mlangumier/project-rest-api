@@ -30,7 +30,6 @@ Content-Type: application/json
   },
   "members": [
     {
-      "id": "{{users.arthur}}",
       "name": "Arthur",
       "email": "arthur@test.com"
     },
