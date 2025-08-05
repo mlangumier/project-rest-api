@@ -31,7 +31,7 @@ public class ExpenseController {
   @GetMapping("/groups/{groupId}/expenses")
   public ResponseEntity<GroupExpensesResponse> getGroupExpenses(
       @PathVariable UUID groupId,
-      @RequestParam(required = false) UUID paidBy,
+      @RequestParam(required = false) String paidBy,
       @RequestParam(required = false)BigDecimal minAmount,
       @RequestParam(required = false)BigDecimal maxAmount
       ) {

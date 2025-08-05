@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ExpenseService {
 
-  GroupExpensesResponse getFromGroup(UUID groupId, UUID userId, BigDecimal minAmount, BigDecimal maxAmount);
+  GroupExpensesResponse getFromGroup(UUID groupId, String paidByName, BigDecimal minAmount, BigDecimal maxAmount);
 
   GroupExpensesDetailsResponse getDetailsFromGroup(UUID groupId);
 

@@ -13,7 +13,6 @@ Content-Type: application/json
 {
   "name": "Visite diplomatique en Andalousie",
   "owner": {
-    "id": "{{users.bohort}}",
     "name": "Bohort",
     "email": "bohort@test.com"
   }

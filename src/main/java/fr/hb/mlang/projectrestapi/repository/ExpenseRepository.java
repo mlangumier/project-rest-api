@@ -10,16 +10,16 @@ import org.springframework.data.jpa.repository.Query;
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
 
   @Query("""
-      SELECT e 
+      SELECT e
       FROM Expense e
-      WHERE e.group.id = :groupId 
-            AND (:paidById IS NULL OR e.paidBy.id = :paidById)
-            AND (:minAmount IS NULL OR e.amount >= :minAmount) 
+      WHERE e.group.id = :groupId
+            AND (:paidByName IS NULL OR e.paidBy.name = :paidByName)
+            AND (:minAmount IS NULL OR e.amount >= :minAmount)
             AND (:maxAmount IS NULL OR e.amount <= :maxAmount)
       """)
   List<Expense> findGroupExpenses(
       UUID groupId,
-      UUID paidById,
+      String paidByName,
       BigDecimal minAmount,
       BigDecimal maxAmount
   );

@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public record CreateExpenseRequest(
     @NotBlank(message = "Expense must have a label or short description")
@@ -20,8 +19,8 @@ public record CreateExpenseRequest(
     @DecimalMin(value = "0.01", message = "Expense must be of a positive amount")
     BigDecimal amount,
 
-    @NotNull(message = "Expense must be done by someone")
-    UUID paidById,
+    @NotBlank(message = "Expense must be paid by someone")
+    String paidByName,
 
     @Valid
     @NotEmpty(message = "Expense must concern multiple group members")

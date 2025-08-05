@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class ExpenseServiceImpl implements ExpenseService {
   @Override
   public GroupExpensesResponse getFromGroup(
       UUID groupId,
-      UUID userId,
+      String paidByName,
       BigDecimal minAmount,
       BigDecimal maxAmount
   ) {
@@ -64,7 +65,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     List<Expense> expenses = expenseRepository.findGroupExpenses(
         group.getId(),
-        userId,
+        paidByName,
         minAmount,
         maxAmount
     );
@@ -137,15 +138,15 @@ public class ExpenseServiceImpl implements ExpenseService {
     Group group = this.findGroupOrThrow(groupId);
 
     // Check that all paidForUser exist in the group
-    Set<UUID> groupMemberIds = group
+    Set<String> groupMemberNames = group
         .getMembers()
         .stream()
-        .map(User::getId)
+        .map(user -> user.getName().toLowerCase())
         .collect(Collectors.toSet());
 
     for (UserPaidForDto dto : request.usersPaidFor()) {
-      if (!groupMemberIds.contains(dto.id())) {
-        throw new RuntimeException("User not find in group");
+      if (!groupMemberNames.contains(dto.name().toLowerCase())) {
+        throw new RuntimeException("User not found in group: " + dto.name());
       }
     }
 
@@ -153,9 +154,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     User paidByUser = group
         .getMembers()
         .stream()
-        .filter(user -> user.getId().equals(request.paidById()))
+        .filter(user -> Objects.equals(user.getName().toLowerCase(), request.paidByName().toLowerCase()))
         .findFirst()
-        .orElseThrow(EntityNotFoundException::new);
+        .orElseThrow(() -> new EntityNotFoundException("Payer not found in group: " + request.paidByName()));
 
     // Create expense
     Expense expense = new Expense();
@@ -169,9 +170,9 @@ public class ExpenseServiceImpl implements ExpenseService {
       User member = group
           .getMembers()
           .stream()
-          .filter(user -> user.getId().equals(userDto.id()))
+          .filter(user -> Objects.equals(user.getName().toLowerCase(), userDto.name().toLowerCase()))
           .findFirst()
-          .orElseThrow(EntityNotFoundException::new);
+          .orElseThrow(() -> new EntityNotFoundException("Group member not found in group: " + userDto.name()));
 
       ExpenseShare share = new ExpenseShare();
       share.setDebtor(member);

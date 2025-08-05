@@ -5,13 +5,13 @@
 GET {{group_expense_url}}
 
 ### GET Group Expenses - Get all expenses from a user in a group
-GET {{group_expense_url}}?paidBy={{users.arthur}}
+GET {{group_expense_url}}?paidBy=arthur
 
 ### GET Group Expenses - Get all expenses from a group, between min & max amount
 GET {{group_expense_url}}?minAmount=450&maxAmount=550
 
 ### GET Group Expenses - Get all expenses from a group, by a user, between min & max amount
-GET {{group_expense_url}}?paidBy={{users.arthur}}&minAmount=450&maxAmount=550
+GET {{group_expense_url}}?paidBy=arthur&minAmount=450&maxAmount=1000
 
 ### GET Group Expenses Details - Get expenses details (how much each member owes and to whom)
 GET {{group_expense_url}}/details
@@ -23,14 +23,14 @@ Content-Type: application/json
 {
   "name": "Rénovation Château",
   "amount": "800.00",
-  "paidById": "{{users.arthur}}",
+  "paidByName": "arthur",
   "usersPaidFor": [
     {
-      "id": "{{users.arthur}}",
+      "name": "arthur",
       "amountOwed": "400.00"
     },
     {
-      "id": "{{users.lancelot}}",
+      "name": "lancelot",
       "amountOwed": "400.00"
     }
   ]
@@ -43,14 +43,14 @@ Content-Type: application/json
 {
   "name": "Fête du Printemps",
   "amount": "200.00",
-  "paidById": "{{users.arthur}}",
+  "paidByName": "arthur",
   "usersPaidFor": [
     {
-      "id": "{{users.bohort}}",
+      "name": "bohort",
       "amountOwed": "150.00"
     },
     {
-      "id": "{{users.perceval}}",
+      "name": "perceval",
       "amountOwed": "50.00"
     }
   ]
@@ -63,26 +63,26 @@ Content-Type: application/json
 {
   "name": "Fête des Cerises",
   "amount": "500.00",
-  "paidById": "{{users.bohort}}",
+  "paidByName": "bohort",
   "usersPaidFor": [
     {
-      "id": "{{users.bohort}}",
+      "name": "bohort",
       "amountOwed": "200.00"
     },
     {
-      "id": "{{users.arthur}}",
+      "name": "arthur",
       "amountOwed": "100.00"
     },
     {
-      "id": "{{users.lancelot}}",
+      "name": "lancelot",
       "amountOwed": "100.00"
     },
     {
-      "id": "{{users.perceval}}",
+      "name": "perceval",
       "amountOwed": "50.00"
     },
     {
-      "id": "{{users.leodagan}}",
+      "name": "léodagan",
       "amountOwed": "50.00"
     }
   ]

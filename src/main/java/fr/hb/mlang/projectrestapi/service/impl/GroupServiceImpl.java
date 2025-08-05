@@ -70,15 +70,18 @@ public class GroupServiceImpl implements GroupService {
   }
 
   /**
-   * Gets an owner or a group member from the database if they exist by checking their email.
-   * If only the name is given as parameter, creates a temporary user.
+   * Gets an owner or a group member from the database if they exist by checking their email. If
+   * only the name is given as parameter, creates a temporary user.
    *
    * @param userDto data from the owner or member of the group
    * @return an existing user found by id or email, or a new temporary user
    */
   private User findUserOrCreateTemporaryUser(UserReferenceDto userDto) {
     if (userDto.email() != null) {
-      return userRepository.findByEmail(userDto.email()).orElseThrow(EntityNotFoundException::new);
+      return userRepository
+          .findByEmail(userDto.email())
+          .orElseThrow(() -> new EntityNotFoundException(
+              "Couldn't find user with email: " + userDto.email()));
     }
 
     User temporaryUser = User.temporaryUser(userDto.name());
